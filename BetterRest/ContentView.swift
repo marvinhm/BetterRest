@@ -17,18 +17,19 @@ struct ContentView: View {
     @State private var alertMessage = ""
     @State private var showingMessage = false
     
-    
+    var maxNumberOfCoffee: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    @State private var numberOfCoffee = 0
     
     var body: some View {
         NavigationView {
             Form {
-                VStack(alignment: .leading, spacing: 0) {
+                Section {
                     Text("When so you want to wake up?")
                         .font(.headline)
                     DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
                         .labelsHidden()
                 }
-                VStack(alignment: .leading, spacing: 0) {
+               Section {
                     Text("How much sleep do you want?")
                         .font(.headline)
                     
@@ -37,17 +38,32 @@ struct ContentView: View {
                     }
                 }
                 
-                VStack(alignment: .leading, spacing: 0) {
+                Section {
                     Text("Daily coffee intake")
                     .font(.headline)
                     
-                    Stepper(value: $coffeeAmount, in: 1...20) {
-                        if coffeeAmount == 1 {
-                            Text("1 cup")
-                        } else {
-                            Text("\(coffeeAmount) cups")
+//                    Stepper(value: $coffeeAmount, in: 1...20) {
+//                        if coffeeAmount == 1 {
+//                            Text("1 cup")
+//                        } else {
+//                            Text("\(coffeeAmount) cups")
+//                        }
+//                    }
+                    
+                     Section(header: Text("How much coffee do you want to take?")) {
+                       Picker("Tip Percentage", selection: $coffeeAmount) {
+                           ForEach(0 ..< maxNumberOfCoffee.count) {
+                            
+                            if self.coffeeAmount == 1 {
+                                Text("\(self.maxNumberOfCoffee[$0]) cup")
+                            } else {
+                                Text("\(self.maxNumberOfCoffee[$0]) cups")
+                            }
                         }
-                    }
+                            
+                       }
+                       .pickerStyle(SegmentedPickerStyle())
+                   }
                 }
             }
             .navigationBarTitle("BetterRest")
